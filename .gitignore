@@ -1,3 +1,4 @@
 *
 !.gitignore
 !kubejs/server_scripts/quark.js
+!kubejs/startup_scripts/custom_additions.js
