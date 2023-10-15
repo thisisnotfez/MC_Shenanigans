@@ -1,6 +1,8 @@
 *
 !.gitignore
+# Server Scripts
+!kubejs/server_scripts/mods/extreme_reactorsextreme_reactors.js
 !kubejs/server_scripts/quark.js
+# Startup Scripts
 !kubejs/startup_scripts/custom_additions.js
 !kubejs/startup_scripts/worldgen.js
-!kubejs/server_scripts/mods/extreme_reactorsextreme_reactors.js
