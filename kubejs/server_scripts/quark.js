@@ -1,24 +1,7 @@
+ServerEvents.tags("item", (event) => {
+  global.chests = event.get("forge:chests/wooden").getObjectIds();
+});
 ServerEvents.recipes((event) => {
-  // 8x logs -> 4x chests through shaped crafting
-  event.shaped("4x minecraft:chest", ["XXX", "X X", "XXX"], {
-    X: "#minecraft:logs",
-  });
-  //event.forEachRecipe(
-  //  { type: "minecraft:crafting_shaped", output: "#minecraft:logs" },
-  //  (r) => {
-  //    let ingredients = "#minecraft:logs"; // returns a List<Ingredient>
-  //    let output = "4x #forge:chests/wooden"; // returns an ItemStack
-  //    event.shaped(output, ["SSS", "S S", "SSS"], { S: ingredients });
-  //  }
-  //);
-  event.forEachRecipe(
-    { type: "minecraft:crafting_shaped", input: "#forge:chests/wooden" },
-    (r) => {
-      let ingredients = "#minecraft:logs"; // returns a List<Ingredient>
-      let output = r.originalRecipeResult; // returns an ItemStack
-      event.shaped("4x " + output, ["SSS", "S S", "SSS"], { S: ingredients });
-    }
-  );
   // 2x logs and 5x Iron Ingots -> 1x hopper through shaped crafting
   event.shaped("minecraft:hopper", ["TXT", "TXT", " T "], {
     T: "#forge:ingots/iron",
@@ -65,8 +48,8 @@ ServerEvents.recipes((event) => {
   event.forEachRecipe(
     { type: "minecraft:crafting_shaped", output: "#minecraft:slabs" },
     (r) => {
-      let ingredients = r.originalRecipeIngredients; // returns a List<Ingredient>
-      let output = r.originalRecipeResult; // returns an ItemStack
+      const ingredients = r.originalRecipeIngredients; // returns a List<Ingredient>
+      const output = r.originalRecipeResult; // returns an ItemStack
       event.shaped(ingredients[0], ["S", "S"], { S: output });
     }
   );
@@ -74,8 +57,8 @@ ServerEvents.recipes((event) => {
   event.forEachRecipe(
     { type: "minecraft:stonecutting", output: "#minecraft:stairs" },
     (r) => {
-      let ingredients = r.originalRecipeIngredients;
-      let output = r.originalRecipeResult;
+      const ingredients = r.originalRecipeIngredients;
+      const output = r.originalRecipeResult;
       event.stonecutting(ingredients[0], output);
     }
   );
@@ -109,4 +92,11 @@ ServerEvents.recipes((event) => {
   event.shapeless("minecraft:black_dye", ["minecraft:charcoal"]);
   // Bone to bonemeal
   event.smelting("3x minecraft:bone_meal", "minecraft:bone").xp(0.05);
+  // 8x logs -> 4x chests through shaped crafting
+  // event.shaped("4x minecraft:chest", ["XXX", "X X", "XXX"], {
+  //   X: "#minecraft:logs",
+  // });
+  global.chests.forEach((r) => {
+    event.shaped(`4x ${r}`, ["SSS", "S S", "SSS"], { S: "#minecraft:logs" });
+  });
 });
